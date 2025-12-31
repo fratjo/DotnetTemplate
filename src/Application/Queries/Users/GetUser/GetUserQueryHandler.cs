@@ -1,7 +1,5 @@
 ﻿using Application.Common.Mediator;
 using Application.DTOs.UserDto;
-using Domain.Common;
-using Domain.Entities;
 using Domain.Repositories;
 
 namespace Application.Queries.Users.GetUser;

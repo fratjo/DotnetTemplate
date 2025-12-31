@@ -1,0 +1,15 @@
+[
+  {
+    "Name": "Blazor + Api",
+    "Projects": [
+      {
+        "Path": "src\\Api\\Api.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "src\\Blazor\\Blazor\\Blazor\\Blazor.csproj",
+        "Action": "Start"
+      }
+    ]
+  }
+]

@@ -45,4 +45,15 @@ public record Result<T> : ResultBase
     public static Result<T> Conflict(string? message = null) => new Result<T> { IsSuccess = false, Message = message ?? "Bad request.", ErrorType = ErrorType.Conflict };
     public static Result<T> NotFound(string? message = null) => new Result<T> { IsSuccess = false, Message = message ?? "Resource not found.", ErrorType = ErrorType.NotFound };
     public static Result<T> Unauthorized(string? message = null) => new Result<T> { IsSuccess = false, Message = message ?? "Unauthorized access.", ErrorType = ErrorType.Unauthorized };
+
+    // Convert generic Result<T> to non-generic Result, preserving status, message and error type.
+    public Result ToResult()
+    {
+        return new Result
+        {
+            IsSuccess = this.IsSuccess,
+            Message = this.Message,
+            ErrorType = this.ErrorType
+        };
+    }
 }

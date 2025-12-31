@@ -1,0 +1,25 @@
+﻿/* Thème Clair (Défaut) */
+:root {
+    --bg-color: #ffffff;
+    --text-color: #000000;
+    --btn-bg: #e0e0e0;
+}
+
+/* Thème Sombre (activé via l'attribut data-theme) */
+[data-theme="dark"] {
+    --bg-color: #1a1a1a;
+    --text-color: #f0f0f0;
+    --btn-bg: #333333;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    transition: background-color 0.3s, color 0.3s;
+}
+
+#top-menu {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    transition: background-color 0.3s, color 0.3s;
+}

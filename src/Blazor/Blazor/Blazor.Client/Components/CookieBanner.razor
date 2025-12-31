@@ -1,0 +1,38 @@
+﻿@inject IJSRuntime JS
+
+@rendermode InteractiveAuto
+
+@if (showBanner)
+{
+    <div style="background:#222; color:white; padding:15px; position:fixed; bottom:0; width:100%; z-index:10000;">
+        <span>
+            Ce site utilise des cookies pour améliorer votre expérience et respecter le RGPD. :)
+        </span>
+
+        <button style="margin-left:20px; padding:6px 12px;" @onclick="Accept">
+            Accepter
+        </button>
+    </div>
+}
+
+@code {
+    private bool showBanner = false;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            var consent = await JS.InvokeAsync<string>("cookieTools.getCookie", "consent");
+            showBanner = consent == null;
+
+            StateHasChanged();
+        }
+    }
+
+    private async Task Accept()
+    {
+        await JS.InvokeVoidAsync("cookieTools.setConsentCookie");
+        showBanner = false;
+        StateHasChanged();
+    }
+}
