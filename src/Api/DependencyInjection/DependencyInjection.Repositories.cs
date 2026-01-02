@@ -1,11 +1,9 @@
 ﻿using Application.Users.ReadStores;
 using Domain.Abstractions;
 using Domain.Users.Repositories;
-using Infrastructure.Contexts;
 using Infrastructure.Repositories;
-using Microsoft.Extensions.DependencyInjection;
 
-namespace Infrastructure.DependencyInjection;
+namespace Api.DependencyInjection;
 
 public static partial class DependencyInjection
 {

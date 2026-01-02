@@ -25,8 +25,7 @@ public class GetUsersEndpoint(IMediator mediator) : EndpointWithoutRequest<GetUs
         await Send.OkAsync( new GetUsersResponse {
             users = user.Select(u => new GetUserResponse {
                 Id = u.Id,
-                Username = u.Username,
-                Age = u.Age
+                Username = u.Username
             }).ToList()
         });
     }

@@ -1,8 +1,7 @@
 ﻿using Application.Abstractions.Mediator;
 using Infrastructure.Mediator;
-using Microsoft.Extensions.DependencyInjection;
 
-namespace Application.DependencyInjection;
+namespace Api.DependencyInjection;
 
 public static partial class DependencyInjection
 {   

@@ -1,7 +1,6 @@
+using Api.DependencyInjection;
 using FastEndpoints;
 using FastEndpoints.Swagger;
-using Application.DependencyInjection;
-using Infrastructure.DependencyInjection;
 using Infrastructure.Contexts;
 using Microsoft.EntityFrameworkCore;
 

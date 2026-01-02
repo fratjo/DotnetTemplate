@@ -1,9 +1,6 @@
 ﻿using Application.Abstractions.Mediator;
 using Application.Users.ReadModels;
 using Application.Users.ReadStores;
-using Domain.Common;
-using Domain.Users.Entities;
-using Domain.Users.Repositories;
 
 namespace Application.Users.Queries.GetUsers;
 

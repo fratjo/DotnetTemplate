@@ -2,9 +2,8 @@
 using Application.Users.Commands.CreateUser;
 using Application.Users.Commands.UpdateUser;
 using Domain.Common;
-using Microsoft.Extensions.DependencyInjection;
 
-namespace Application.DependencyInjection;
+namespace Api.DependencyInjection;
 
 public static partial class DependencyInjection
 {
