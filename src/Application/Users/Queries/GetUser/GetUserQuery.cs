@@ -1,6 +1,6 @@
-﻿using Application.Abstractions.Mediator;
-using Application.Users.ReadModels;
+﻿using Application.Users.ReadModels;
 using Domain.Common;
+using Mediator;
 
 namespace Application.Users.Queries.GetUser;
 

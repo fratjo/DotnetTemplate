@@ -1,12 +1,18 @@
-﻿using Application.Abstractions.Mediator;
+﻿using Mediator;
 using Application.Users.Queries.GetUsers;
 using FastEndpoints;
 
 namespace Api.Endpoints.Users;
 
+public record GetUserListItemResponse
+{
+    public Guid Id { get; set; }
+    public string Username { get; set; } = string.Empty;
+}
+
 public class GetUsersResponse
 {
-    public List<GetUserResponse> users { get; set; } = new();
+    public List<GetUserListItemResponse> users { get; set; } = new();
 }
 
 public class GetUsersEndpoint(IMediator mediator) : EndpointWithoutRequest<GetUsersResponse>
@@ -19,11 +25,12 @@ public class GetUsersEndpoint(IMediator mediator) : EndpointWithoutRequest<GetUs
 
     public override async Task HandleAsync(CancellationToken ct)
     {
-        var command = new GetUsersQuery();
-        var user = await mediator.SendAsync(command, ct);
+        var query = new GetUsersQuery();
+        var user = await mediator.AskAsync(query, ct);
         
         await Send.OkAsync( new GetUsersResponse {
-            users = user.Select(u => new GetUserResponse {
+            users = user.Select(u => new GetUserListItemResponse
+            {
                 Id = u.Id,
                 Username = u.Username
             }).ToList()

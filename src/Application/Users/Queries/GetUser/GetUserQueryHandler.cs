@@ -1,11 +1,11 @@
-﻿using Application.Abstractions.Mediator;
-using Application.Users.ReadModels;
+﻿using Application.Users.ReadModels;
 using Application.Users.ReadStores;
 using Domain.Common;
+using Mediator;
 
 namespace Application.Users.Queries.GetUser;
 
-public class GetUserQueryHandler(IUserReadStore store) : IQueryHandler<GetUserQuery, Option<UserReadModel>>
+public sealed class GetUserQueryHandler(IUserReadStore store) : IQueryHandler<GetUserQuery, Option<UserReadModel>>
 {
     public async Task<Option<UserReadModel>> HandleAsync(GetUserQuery query, CancellationToken cancellationToken = default)
     {

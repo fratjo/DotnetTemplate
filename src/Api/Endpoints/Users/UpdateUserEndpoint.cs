@@ -1,4 +1,4 @@
-﻿using Application.Abstractions.Mediator;
+﻿using Mediator;
 using Application.Users.Commands.UpdateUser;
 using FastEndpoints;
 using Microsoft.AspNetCore.Mvc;

@@ -1,4 +1,4 @@
-namespace Application.Abstractions.Mediator;
+namespace Mediator;
 
 public interface ICommand<TResponse>;
 

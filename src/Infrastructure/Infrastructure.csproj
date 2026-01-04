@@ -7,12 +7,21 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="DependencyInjection\DependencyInjection.UserHandlers.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="DependencyInjection\DependencyInjection.UserHandlers.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="10.0.1" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Application\Application.csproj" />
     <ProjectReference Include="..\Domain\Domain.csproj" />
+    <ProjectReference Include="..\Mediator\Mediator.csproj" />
   </ItemGroup>
 
 </Project>

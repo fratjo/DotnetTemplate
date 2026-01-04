@@ -1,12 +1,12 @@
-﻿using Application.Abstractions.Mediator;
-using Domain.Common;
+﻿using Domain.Common;
 using Domain.Abstractions;
 using Domain.Users.Repositories;
 using Domain.Users.Errors;
+using Mediator;
 
 namespace Application.Users.Commands.UpdateUser;
 
-public class UpdateUserCommandHandler(IUserWriteRepository userRepository, IUnitOfWork unitOfWork) : ICommandHandler<UpdateUserCommand, Result>
+public sealed class UpdateUserCommandHandler(IUserWriteRepository userRepository, IUnitOfWork unitOfWork) : ICommandHandler<UpdateUserCommand, Result>
 {
     public async Task<Result> HandleAsync(UpdateUserCommand command, CancellationToken cancellationToken = default)
     {

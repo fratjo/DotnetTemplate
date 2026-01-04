@@ -2,8 +2,9 @@
 using Domain.Abstractions;
 using Domain.Users.Repositories;
 using Infrastructure.Repositories;
+using Microsoft.Extensions.DependencyInjection;
 
-namespace Api.DependencyInjection;
+namespace Infrastructure.DependencyInjection;
 
 public static partial class DependencyInjection
 {

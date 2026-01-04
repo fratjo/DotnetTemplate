@@ -1,5 +1,5 @@
-﻿using Application.Abstractions.Mediator;
-using Domain.Common;
+﻿using Domain.Common;
+using Mediator;
 
 namespace Application.Users.Commands.UpdateUser;
 

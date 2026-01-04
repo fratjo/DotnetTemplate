@@ -1,4 +1,4 @@
-﻿using Application.Abstractions.Mediator;
+﻿using Mediator;
 using Application.Users.Queries.GetUser;
 using FastEndpoints;
 using Microsoft.AspNetCore.Mvc;
@@ -27,8 +27,8 @@ public class GetUserEndpoint(IMediator mediator) : Endpoint<GetUserRequest, GetU
     }
     public override async Task HandleAsync(GetUserRequest request, CancellationToken ct)
     {
-        var command = new GetUserQuery(request.UserId);
-        var user = await mediator.SendAsync(command, ct);
+        var query = new GetUserQuery(request.UserId);
+        var user = await mediator.AskAsync(query, ct);
         if (user.IsSome)
             await Send.OkAsync(new GetUserResponse
             {

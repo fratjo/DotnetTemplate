@@ -1,4 +1,4 @@
-namespace Application.Abstractions.Mediator;
+namespace Mediator;
 
 public interface IQueryHandler<in TQuery, TResponse> where TQuery : IQuery<TResponse>
 {

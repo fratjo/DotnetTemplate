@@ -1,13 +1,13 @@
-﻿using Application.Abstractions.Mediator;
-using Domain.Abstractions;
+﻿using Domain.Abstractions;
 using Domain.Common;
 using Domain.Users.Entities;
 using Domain.Users.Errors;
 using Domain.Users.Repositories;
+using Mediator;
 
 namespace Application.Users.Commands.CreateUser;
 
-public class CreateUserCommandHandler(IUserWriteRepository userRepository, IUnitOfWork unitOfWork) : ICommandHandler<CreateUserCommand, Result<Guid>>
+public sealed class CreateUserCommandHandler(IUserWriteRepository userRepository, IUnitOfWork unitOfWork) : ICommandHandler<CreateUserCommand, Result<Guid>>
 {
     public async Task<Result<Guid>> HandleAsync(CreateUserCommand command, CancellationToken cancellationToken = default)
     {
