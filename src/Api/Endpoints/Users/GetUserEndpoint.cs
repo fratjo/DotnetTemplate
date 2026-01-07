@@ -31,14 +31,15 @@ public class GetUserEndpoint(IMediator mediator) : Endpoint<GetUserRequest, GetU
     {
         var query = new GetUserQuery(request.UserId);
         var user = await mediator.AskAsync(query, ct);
-        if (user is Some<UserReadModel> u)
-            await Send.OkAsync(new GetUserResponse
+
+        await user.Match(
+            some: u => Send.OkAsync(new GetUserResponse
             {
-                Id = u.Value.Id,
-                Username = u.Value.Username,
-                Age = u.Value.Age
-            });
-        else
-            await Send.NotFoundAsync();
+                Id = u.Id,
+                Username = u.Username,
+                Age = u.Age
+            }),
+            none: () => Send.NotFoundAsync()
+        );
     }
 }
