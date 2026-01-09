@@ -1,4 +1,4 @@
-﻿namespace Application.Common;
+﻿namespace Shared;
 
 public abstract record Maybe<T>
 {

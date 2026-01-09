@@ -2,7 +2,7 @@
 using Application.Users.Queries.GetUser;
 using FastEndpoints;
 using Microsoft.AspNetCore.Mvc;
-using Application.Common;
+using Domain.Common;
 using Application.Users.ReadModels;
 
 namespace Api.Endpoints.Users;

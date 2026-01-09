@@ -1,5 +1,5 @@
-﻿using Domain.Common;
-using Mediator;
+﻿using Mediator;
+using Shared;
 
 namespace Application.Users.Commands.UpdateUser;
 

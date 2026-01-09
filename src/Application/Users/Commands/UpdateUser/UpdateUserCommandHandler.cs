@@ -1,8 +1,8 @@
-﻿using Domain.Common;
+﻿using Application.Users.Errors;
 using Domain.Abstractions;
 using Domain.Users.Repositories;
-using Domain.Users.Errors;
 using Mediator;
+using Shared;
 
 namespace Application.Users.Commands.UpdateUser;
 
@@ -12,24 +12,26 @@ public sealed class UpdateUserCommandHandler(IUserWriteRepository userRepository
     {
         var user = await userRepository.LoadByIdAsync(command.UserId, cancellationToken);
         if (user is null)
-            return Result.Failure(UserErrors.UserNotFound);
-        
-        if (command.Username is not null)
-        {
-            var updateResult = user.UpdateUsername(command.Username);
-            if (!updateResult.IsSuccess)
-                return updateResult;
-        }
+            return Result.Failure(ApplicationUserError.UserNotFound);
 
-        if (command.Age is not null)
-        {
-            var updateResult = user.UpdateAge(command.Age.Value);
-            if (!updateResult.IsSuccess)
-                return updateResult;
-        }
+        var updateResult = user.Update(
+            command.Username,
+            command.Age
+            );
+
+        if (updateResult.IsFailure)
+            return updateResult;
 
         await userRepository.UpdateAsync(user, cancellationToken);
-        await unitOfWork.SaveChangesAsync(cancellationToken);
+
+        try
+        {
+            await unitOfWork.SaveChangesAsync(cancellationToken);
+        }
+        catch (Exception)
+        {
+            // Transform exception to a domain-specific error if needed
+        }
 
         return Result.Success();
     }

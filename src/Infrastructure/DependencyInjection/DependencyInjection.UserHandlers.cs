@@ -1,12 +1,11 @@
-﻿using Application.Common;
-using Application.Users.Commands.CreateUser;
+﻿using Application.Users.Commands.CreateUser;
 using Application.Users.Commands.UpdateUser;
 using Application.Users.Queries.GetUser;
 using Application.Users.Queries.GetUsers;
 using Application.Users.ReadModels;
-using Domain.Common;
 using Mediator;
 using Microsoft.Extensions.DependencyInjection;
+using Shared;
 
 namespace Infrastructure.DependencyInjection;
 

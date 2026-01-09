@@ -1,77 +1,125 @@
 using Domain.Common;
 using Domain.Users.Errors;
+using Shared;
+using System.Diagnostics;
 
 namespace Domain.Users.Entities;
 
 public class User
-{   
+{
+    #region Properties
     public Guid Id { get; init; } = Guid.NewGuid();
-    private DateTime _createdAt { get; init; } = DateTime.UtcNow;
+    private DateTime CreatedAt { get; init; } = DateTime.UtcNow;
 
     public string Username { get; private set; } = string.Empty;
-    private DateTime _usernameLastUpdated { get; set; } = default;
+    private DateTime UsernameLastUpdated { get; set; } = default;
 
     public int Age { get; private set; } = 0;
+    #endregion  
 
-    private User(string username, int age) 
+    #region Constructor
+    private User(string username, int age, DateTime createdAt) 
     {
         Username = username.ToUpperInvariant();
-        _usernameLastUpdated = DateTime.UtcNow;
+        UsernameLastUpdated = createdAt;
         Age = age;
     }
+    #endregion
 
+    #region Factory Method
     public static Result<User> Create(string username, int age)
     {
-        var errors = new List<DomainError>();
-
         var now = DateTime.UtcNow;
 
-        errors.AddRange(ValidateUsername(username, null, now));
-        errors.AddRange(ValidateAge(age));
+        var errors = ValidateCreate(username, age, now);
 
         if (errors.Any())
-            return Result<User>.Failure(errors.ToArray());
+            return Result<User>.Failure([.. errors]);
 
-        return Result<User>.Success(new User (username, age));
+        var user = ApplyCreate(username, age, now);
+
+        return Result<User>.Success(user);
     }
+    #endregion
 
-    public Result UpdateUsername(string newUsername)
+    #region Update Method
+    public Result Update(string? username, int? age)
     {
         var now = DateTime.UtcNow;
-        var errors = ValidateUsername(newUsername, _usernameLastUpdated, now);
+
+        var errors = ValidateUpdate(username, age, now);
 
         if (errors.Any())
-            return Result.Failure(errors.ToArray());
+            return Result.Failure([.. errors]);
 
-        Username = newUsername.ToUpperInvariant();
-        _usernameLastUpdated = DateTime.UtcNow;
+        ApplyUpdate(username, age, now);
 
         return Result.Success();
     }
+    #endregion
 
-    public Result UpdateAge(int newAge)
+    #region Apply Methods
+    private static User ApplyCreate(string username, int age, DateTime now)
     {
-        var errors = ValidateAge(newAge);
+        return new User(
+            username.ToUpperInvariant(),
+            age,
+            now
+        );
+    }
 
-        if (errors.Any())
-            return Result.Failure(errors.ToArray());
+    private void ApplyUpdate(string? username, int? age, DateTime now)
+    {
+        if (username is not null)
+        {
+            Username = username.ToUpperInvariant();
+            UsernameLastUpdated = now;
+        }
 
-        Age = newAge;
-        
-        return Result.Success();
+        if (age is not null)
+        {
+            Age = age.Value;
+        }
+    }
+    #endregion
+
+    #region Validation Methods
+    private static IEnumerable<DomainError> ValidateCreate(string username, int age, DateTime now)
+    {
+        foreach (var error in ValidateUsername(username, null, now))
+            yield return error;
+
+        foreach (var error in ValidateAge(age))
+            yield return error;
+    }
+
+    private IEnumerable<DomainError> ValidateUpdate(string? username, int? age, DateTime now)
+    {
+        if (username is not null)
+        {
+            foreach (var error in ValidateUsername(username, UsernameLastUpdated, now))
+                yield return error;
+        }
+
+        if (age is not null)
+        {
+            foreach (var error in ValidateAge(age.Value))
+                yield return error;
+        }
     }
 
     private static IEnumerable<DomainError> ValidateUsername(string username, DateTime? lastUpdated, DateTime now)
     {
         if (string.IsNullOrWhiteSpace(username))
-            yield return UserErrors.UsernameCannotBeEmpty;
+            yield return DomainUserError.UsernameCannotBeEmpty;
         if (lastUpdated.HasValue && (now - lastUpdated.Value).TotalDays < 30)
-            yield return UserErrors.UsernameChangeTooFrequent;
+            yield return DomainUserError.UsernameChangeTooFrequent;
     }
 
     private static IEnumerable<DomainError> ValidateAge(int age)
     {
         if (age < 18 || age > 100)
-            yield return UserErrors.AgeMustBeBetween18And100;
+            yield return DomainUserError.AgeMustBeBetween18And100;
     }
+    #endregion
 }
