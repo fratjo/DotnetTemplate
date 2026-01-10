@@ -22,15 +22,7 @@ public sealed class CreateUserCommandHandler(IUserWriteRepository userRepository
             return Result<Guid>.Failure(result.Errors);
 
         await userRepository.AddAsync(result.Value!, cancellationToken);
-
-        try
-        {
-            await unitOfWork.SaveChangesAsync(cancellationToken);
-        }
-        catch (Exception)
-        {
-            // Log the exception (not implemented here for brevity)
-        }
+        await unitOfWork.SaveChangesAsync(cancellationToken);
 
         return await Task.FromResult(Result<Guid>.Success(result.Value!.Id));
     }

@@ -1,10 +1,9 @@
 using FastEndpoints;
 using FastEndpoints.Swagger;
 
-using Infrastructure.Contexts;
-using Infrastructure.DependencyInjection;
+using Api.ExceptionHandlers;
 
-using Microsoft.EntityFrameworkCore;
+using Infrastructure.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +14,7 @@ builder.Services.AddAuthentication();
 builder.Services.AddAuthorization();
 builder.Services.AddFastEndpoints();
 builder.Services.AddSwaggerDocument();
+builder.Services.AddExceptionHandlers();
 builder.Services.AddUserHandlers();
 builder.Services.AddMediator();
 builder.Services.AddPersistence(builder.Configuration);
@@ -31,6 +31,7 @@ app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 
+app.UseExceptionHandler();
 app.UseFastEndpoints();
 app.UseSwaggerGen();
 
