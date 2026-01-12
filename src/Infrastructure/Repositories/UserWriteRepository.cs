@@ -41,12 +41,6 @@ public class UserWriteRepository(AppDbContext context) : IUserWriteRepository
 
     public async Task UpdateAsync(User entity, CancellationToken cancellationToken = default)
     {
-        var u = context.Users.FirstOrDefault(x => x.Id == entity.Id);
-        if (u != null)
-        {
-            context.Users.Remove(u);
-            context.Users.Add(entity);
-        }
-        await Task.CompletedTask;
+        await Task.FromResult(context.Users.Update(entity));
     }
 }

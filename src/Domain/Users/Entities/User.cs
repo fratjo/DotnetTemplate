@@ -62,7 +62,7 @@ public class User
     private static User ApplyCreate(string username, int age, DateTime now)
     {
         return new User(
-            username.ToUpperInvariant(),
+            username,
             age,
             now
         );
